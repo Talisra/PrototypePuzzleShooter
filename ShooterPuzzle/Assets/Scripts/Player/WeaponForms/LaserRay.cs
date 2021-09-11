@@ -25,7 +25,7 @@ public class LaserRay : MonoBehaviour
     }
 
     // Update is called once per frame
-    void FixedUpdate()
+    void Update()
     {
         lr.SetPosition(0, laserStart);
         RaycastHit2D hit = Physics2D.Raycast(laserStart, laserDirection, rayLength, layersToHit);

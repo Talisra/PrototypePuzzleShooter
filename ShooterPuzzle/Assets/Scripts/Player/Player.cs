@@ -96,9 +96,11 @@ public class Player : MonoBehaviour
 
         if (currentForm.slowAim) // slow aim
         {
+            /*
             float zEulerAngleRecalc = aimPointObject.transform.rotation.eulerAngles.z;
             zEulerAngleRecalc = zEulerAngleRecalc > 180 ? zEulerAngleRecalc - 360 : zEulerAngleRecalc;
             float angleDistance = aimingAngle - zEulerAngleRecalc;
+            
             if (Mathf.Abs(angleDistance) > 0.1f)
             {
                 // using repeat to fix the problem arount +-180 degrees.
@@ -114,7 +116,7 @@ public class Player : MonoBehaviour
             else // adjust aim
             {
                 aimPointObject.transform.rotation = Quaternion.Euler(0, 0, aimingAngle);
-            }
+            }*/
         }
         else // fast aim
         {

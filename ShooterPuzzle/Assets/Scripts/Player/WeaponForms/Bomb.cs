@@ -7,24 +7,10 @@ public class Bomb : MonoBehaviour
     public Rigidbody2D rb;
     public float stickDelay;
     private Vector3 initialFirePos;
-    private float gravityScale;
 
     private Vector3 direction;
 
-    private bool isStick = false;
-    private float stickCounter = 0;
 
-    private void Awake()
-    {
-        gravityScale = rb.gravityScale;
-    }
-
-    private void OnEnable()
-    {
-        isStick = false;
-        stickCounter = 0;
-        rb.gravityScale = gravityScale;
-    }
 
     // SetDirectionAndPower will set the direction relative to the AimPoint and not the cursor!
     // that will make sure the player can only shoot in the aim point bounds
@@ -39,11 +25,11 @@ public class Bomb : MonoBehaviour
     {
         if (collision.gameObject.tag.Equals("BaseGround"))
         {
-            ReturnToPool();
+            Explode();
         }
         else if (collision.gameObject.tag.Equals("Steel"))
         {
-            ReturnToPool();
+            Explode();
         }
         else if (collision.gameObject.tag.Equals("Wood"))
         {
@@ -51,23 +37,20 @@ public class Bomb : MonoBehaviour
         }
     }
 
+    private void Explode()
+    {
+        PrefabPooler.Instance.Get("BombSplash", transform.position, Quaternion.identity);
+        ReturnToPool();
+    }
+
     private void Stick(Vector2 pos)
     {
-        rb.velocity = Vector2.zero;
-        rb.gravityScale = 0;
-        isStick = true;
+        PrefabPooler.Instance.Get("BombPlatform", transform.position, Quaternion.identity);
+        ReturnToPool();
     }
 
     private void Update()
     {
-        if (isStick)
-        {
-            stickCounter += Time.deltaTime;
-            if (stickCounter >= stickDelay)
-            {
-                ReturnToPool();
-            }
-        }
         if (Vector3.Distance(initialFirePos, transform.position) > 50)
         {
             ReturnToPool();
