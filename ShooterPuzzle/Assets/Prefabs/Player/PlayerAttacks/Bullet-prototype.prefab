@@ -13,9 +13,10 @@ GameObject:
   - component: {fileID: 4027664294990574337}
   - component: {fileID: 3876754301337344419}
   - component: {fileID: 451946751426491965}
+  - component: {fileID: 6074456946611782264}
   m_Layer: 9
   m_Name: Bullet-prototype
-  m_TagString: Untagged
+  m_TagString: PlayerAttack
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -134,3 +135,16 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.0625
+--- !u!114 &6074456946611782264
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1453930782439348413}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4cf6a6884ce8fe43b50f397e368d5e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 2

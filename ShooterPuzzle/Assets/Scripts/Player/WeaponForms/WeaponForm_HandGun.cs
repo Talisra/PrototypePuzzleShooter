@@ -4,8 +4,15 @@ using UnityEngine;
 
 public class WeaponForm_HandGun : WeaponForm
 {
+    public int totalAmmo;
+    private int currentAmmo;
+
+    private float ammoRegen = 1.25f;
+    private float ammoRegenCounter = 0;
+
     public override void InitForm()
     {
+        currentAmmo = totalAmmo;
         player.OnWeaponStartFire += ShootBullet;
     }
 
@@ -16,7 +23,25 @@ public class WeaponForm_HandGun : WeaponForm
 
     private void ShootBullet(object sender, Player.OnShootEventArgs e)
     {
-        Bullet bullet = PrefabPooler.Instance.Get("Bullet_prototype", e.firePointPos, Quaternion.identity).GetComponent<Bullet>();
-        bullet.SetDirection(e.aimPointPos);
+        if (currentAmmo > 0)
+        {
+            Bullet bullet = PrefabPooler.Instance.Get("Bullet_prototype", e.firePointPos, Quaternion.identity).GetComponent<Bullet>();
+            bullet.SetDirection(e.aimPointPos);
+            currentAmmo--;
+        }
+
+    }
+
+    private void Update()
+    {
+        if (currentAmmo < totalAmmo)
+        {
+            ammoRegenCounter += Time.deltaTime;
+            if (ammoRegenCounter >= ammoRegen)
+            {
+                currentAmmo++;
+                ammoRegenCounter = 0;
+            }
+        }
     }
 }

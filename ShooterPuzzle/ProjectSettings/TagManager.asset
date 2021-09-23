@@ -7,6 +7,9 @@ TagManager:
   - BaseGround
   - Steel
   - Wood
+  - PlayerPlatform
+  - PlayerAttack
+  - Enemy
   layers:
   - Default
   - TransparentFX

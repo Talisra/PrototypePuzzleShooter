@@ -50,3 +50,4 @@ MonoBehaviour:
   maxAngle: 0
   slowAim: 0
   slowAimSpeed: 0
+  totalAmmo: 5

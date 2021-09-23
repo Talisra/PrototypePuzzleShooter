@@ -54,3 +54,4 @@ MonoBehaviour:
   minPower: 20
   maxPower: 80
   maxChargeTime: 1
+  coolDown: 1

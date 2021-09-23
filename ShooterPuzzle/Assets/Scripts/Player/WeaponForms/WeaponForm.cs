@@ -14,6 +14,7 @@ public class WeaponForm : MonoBehaviour
     public bool slowAim;
     public float slowAimSpeed;
 
+
     protected virtual void Awake()
     {
         player = FindObjectOfType<Player>();
@@ -30,4 +31,7 @@ public class WeaponForm : MonoBehaviour
     {
 
     }
+
+
+
 }

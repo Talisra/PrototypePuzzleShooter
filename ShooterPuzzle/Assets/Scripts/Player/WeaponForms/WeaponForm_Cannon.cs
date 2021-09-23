@@ -15,6 +15,10 @@ public class WeaponForm_Cannon : WeaponForm
     private float chargeMultiplier;
     private float unknownMultiplier = 1.41f; //No explanation why but this multiplier works with aim assist the best
 
+    public float coolDown;
+    private float cdCounter = 0;
+    private bool canShoot = true;
+    private bool isCharging = false;
     protected override void Awake()
     {
         base.Awake();
@@ -43,20 +47,40 @@ public class WeaponForm_Cannon : WeaponForm
 
     private void ChargeBomb(object sender, Player.OnShootEventArgs e)
     {
-        if (!aimAssist.gameObject.activeSelf)
-            aimAssist.gameObject.SetActive(true);
-        aimAssist.RefreshParameters(e.firePointPos, -e.angle, (power/ bombMass)*unknownMultiplier);
-        power += Time.deltaTime * chargeMultiplier;
-        if (power >= maxPower)
-            power = maxPower;
+        if (canShoot)
+        {
+            isCharging = true;
+            if (!aimAssist.gameObject.activeSelf)
+                aimAssist.gameObject.SetActive(true);
+            aimAssist.RefreshParameters(e.firePointPos, -e.angle, (power / bombMass) * unknownMultiplier);
+            power += Time.deltaTime * chargeMultiplier;
+            if (power >= maxPower)
+                power = maxPower;
+        }
     }
 
     private void FireBomb(object sender, Player.OnShootEventArgs e)
     {
-        aimAssist.gameObject.SetActive(false);
-        Bomb bomb = PrefabPooler.Instance.Get("Bomb_prototype", e.firePointPos, Quaternion.identity).GetComponent<Bomb>();
-        bomb.SetDirectionAndPower(e.aimPointPos, power);
-        power = minPower;
+        if (canShoot && isCharging)
+        {
+            aimAssist.gameObject.SetActive(false);
+            Bomb bomb = PrefabPooler.Instance.Get("Bomb_prototype", e.firePointPos, Quaternion.identity).GetComponent<Bomb>();
+            bomb.SetDirectionAndPower(e.aimPointPos, power);
+            power = minPower;
+            canShoot = false;
+            isCharging = false;
+        }
     }
-
+    private void Update()
+    {
+        if (!canShoot)
+        {
+            cdCounter += Time.deltaTime;
+            if (cdCounter >= coolDown)
+            {
+                cdCounter = 0;
+                canShoot = true;
+            }
+        }
+    }
 }

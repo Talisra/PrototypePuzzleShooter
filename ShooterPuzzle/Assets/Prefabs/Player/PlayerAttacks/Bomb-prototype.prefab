@@ -13,9 +13,10 @@ GameObject:
   - component: {fileID: 3876754301337344419}
   - component: {fileID: 451946751426491965}
   - component: {fileID: -5686922444766957323}
+  - component: {fileID: -7853430210920605392}
   m_Layer: 9
   m_Name: Bomb-prototype
-  m_TagString: Untagged
+  m_TagString: PlayerAttack
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -136,3 +137,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb: {fileID: 3876754301337344419}
   stickDelay: 2
+--- !u!114 &-7853430210920605392
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1453930782439348413}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4cf6a6884ce8fe43b50f397e368d5e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 0

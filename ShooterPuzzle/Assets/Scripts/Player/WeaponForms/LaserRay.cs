@@ -6,7 +6,7 @@ public class LaserRay : MonoBehaviour
 {
     public LayerMask layersToHit;
     private LineRenderer lr;
-    private float rayLength = 10;
+    private float rayLength = 20;
 
     private Vector2 laserStart;
     private Vector2 laserDirection;
@@ -32,6 +32,16 @@ public class LaserRay : MonoBehaviour
         if (!hit.collider)
         {
             lr.SetPosition(1, laserStart + laserDirection * rayLength);
+        }
+        else if (hit.collider.gameObject.tag.Equals("Enemy"))
+        {
+            lr.SetPosition(1, hit.point);
+            hit.collider.gameObject.GetComponent<Enemy>().TakeTickDamage();
+        }
+        else if (hit.collider.gameObject.tag.Equals("Wood"))
+        {
+            lr.SetPosition(1, hit.point);
+            hit.collider.gameObject.GetComponent<WoodTile>().Tick();
         }
         else
         {

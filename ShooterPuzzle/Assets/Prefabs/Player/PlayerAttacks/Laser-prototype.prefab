@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 1072924229905141684}
   m_Layer: 9
   m_Name: Laser-prototype
-  m_TagString: Untagged
+  m_TagString: PlayerAttack
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

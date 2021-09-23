@@ -26,6 +26,7 @@ public class Player : MonoBehaviour
     private float aimPointRadius = 1;
     private Transform firePoint;
     private float aimingAngle;
+    private float lockedAimAngle;
 
     private CharacterController2D cc;
     private float moveDirection = 0;
@@ -47,7 +48,8 @@ public class Player : MonoBehaviour
     // Change the current weapon form to a new one, clear old events.
     public void ChangeForm(WeaponForm newForm)
     {
-        currentForm.Reset();
+        if (currentForm) // reset the previous form if its not the first form
+            currentForm.Reset();
         currentForm = newForm;
         OnWeaponStartFire = null;
         OnWeaponEndFire = null;
@@ -93,30 +95,19 @@ public class Player : MonoBehaviour
                 aimingAngle = Mathf.Clamp(aimingAngle, -currentForm.maxAngle, -currentForm.minAngle);
             }
         }
-
         if (currentForm.slowAim) // slow aim
         {
-            /*
-            float zEulerAngleRecalc = aimPointObject.transform.rotation.eulerAngles.z;
-            zEulerAngleRecalc = zEulerAngleRecalc > 180 ? zEulerAngleRecalc - 360 : zEulerAngleRecalc;
-            float angleDistance = aimingAngle - zEulerAngleRecalc;
-            
+            float angleDistance = aimingAngle - lockedAimAngle;
             if (Mathf.Abs(angleDistance) > 0.1f)
             {
-                // using repeat to fix the problem arount +-180 degrees.
-                float _angle = Mathf.Repeat(angleDistance, 360.0f);
-                if (_angle > 180)
-                {
-                    aimPointObject.transform.Rotate(new Vector3(0, 0, -currentForm.slowAimSpeed * rawDirection));
-                }else
-                {
-                    aimPointObject.transform.Rotate(new Vector3(0, 0, currentForm.slowAimSpeed * rawDirection));
-                }
+                float targetAngle = Mathf.MoveTowardsAngle(lockedAimAngle, aimingAngle, currentForm.slowAimSpeed); ;
+                aimPointObject.transform.rotation = Quaternion.Euler(0, 0, targetAngle);
+                lockedAimAngle = targetAngle;
             }
-            else // adjust aim
+            else // adjust aim when close to target
             {
                 aimPointObject.transform.rotation = Quaternion.Euler(0, 0, aimingAngle);
-            }*/
+            }
         }
         else // fast aim
         {
@@ -155,6 +146,11 @@ public class Player : MonoBehaviour
                 angle = aimingAngle
             });
         }
+    }
+
+    public void LockAim()
+    {
+        lockedAimAngle = aimingAngle;
     }
 
     void FixedUpdate()

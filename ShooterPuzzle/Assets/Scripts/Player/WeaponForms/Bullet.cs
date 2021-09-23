@@ -37,6 +37,10 @@ public class Bullet : MonoBehaviour
         {
             ReturnToPool();
         }
+        else if (collision.gameObject.tag.Equals("Enemy"))
+        {
+            ReturnToPool();
+        }
     }
 
     private void Update()

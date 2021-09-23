@@ -52,6 +52,7 @@ MonoBehaviour:
   slowAim: 0
   slowAimSpeed: 0.025
   laser: {fileID: 9049596024146367089}
+  coolDown: 0.5
 --- !u!1001 &6842972871601653169
 PrefabInstance:
   m_ObjectHideFlags: 0
