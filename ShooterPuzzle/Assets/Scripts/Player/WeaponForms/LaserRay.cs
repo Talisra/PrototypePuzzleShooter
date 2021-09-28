@@ -33,15 +33,20 @@ public class LaserRay : MonoBehaviour
         {
             lr.SetPosition(1, laserStart + laserDirection * rayLength);
         }
-        else if (hit.collider.gameObject.tag.Equals("Enemy"))
+        else if (hit.collider.gameObject.CompareTag("Enemy"))
         {
             lr.SetPosition(1, hit.point);
             hit.collider.gameObject.GetComponent<Enemy>().TakeTickDamage();
         }
-        else if (hit.collider.gameObject.tag.Equals("Wood"))
+        else if (hit.collider.gameObject.CompareTag("Wood"))
         {
             lr.SetPosition(1, hit.point);
             hit.collider.gameObject.GetComponent<WoodTile>().Tick();
+        }
+        else if (hit.collider.gameObject.CompareTag("Steel"))
+        {
+            lr.SetPosition(1, hit.point);
+            hit.collider.gameObject.GetComponent<SteelTile>().Tick(hit.point);
         }
         else
         {

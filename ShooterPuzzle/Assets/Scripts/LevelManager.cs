@@ -5,7 +5,7 @@ using UnityEditor;
 
 public class LevelManager : MonoBehaviour
 {
-    private Player player;
+    public Player player;
     public WeaponForm startingForm;
 
     private void Awake()

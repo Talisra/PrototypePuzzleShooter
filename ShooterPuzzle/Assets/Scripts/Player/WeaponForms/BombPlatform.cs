@@ -6,10 +6,10 @@ public class BombPlatform : MonoBehaviour
 {
     private BoxCollider2D boxCollider;
     private SpriteRenderer spriteRenderer;
-    private float disappearDelay = 5f;
+    private float disappearDelay = 50f;
     private float timeCounter = 0;
 
-    private WoodTile anchorTile;
+    private WoodTile tileAnchor;
 
     private void Awake()
     {
@@ -53,11 +53,13 @@ public class BombPlatform : MonoBehaviour
         }
         Vector3 newPosition = new Vector3(x + xAdd, y + yAdd, 0);
         transform.position = newPosition;
-        anchorTile = tile;
+        tile.RegisterBombPlatform(this);
+        tileAnchor = tile;
     }
 
     public void Disappear()
     {
+        tileAnchor = null;
         PrefabPooler.Instance.ReturnToPool(gameObject);
     }
 
@@ -69,7 +71,7 @@ public class BombPlatform : MonoBehaviour
         if (timeCounter > disappearDelay)
         {
             timeCounter = 0;
-            
+            tileAnchor.UnregisterBombPlatform(this);
             Disappear();
         }
     }

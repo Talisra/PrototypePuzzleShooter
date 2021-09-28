@@ -4,12 +4,31 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
+    [HideInInspector]
+    public SpriteRenderer sr;
     public int maxHP;
     private int currentHP;
 
     private float tickDelay = .1f;
     private float tickCounter = 0;
     private bool isTicking = false;
+
+    EnemyHPBar hpBar;
+
+    public int GetCurrentHp()
+    {
+        return currentHP;
+    }
+
+    private void Awake()
+    {
+        sr = GetComponent<SpriteRenderer>();
+        GameObject hpgo = Instantiate(Resources.Load("Prefabs/HPbar", typeof(GameObject)),
+            transform.position, Quaternion.identity) as GameObject;
+        hpBar = hpgo.GetComponent<EnemyHPBar>();
+        hpBar.AttatchToEnemy(this);
+    }
+
     private void OnEnable()
     {
         currentHP = maxHP;
@@ -17,7 +36,7 @@ public class Enemy : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.tag.Equals("PlayerAttack"))
+        if (collision.gameObject.CompareTag("PlayerAttack"))
         {
             DamagingObject damagingObject;
             if (collision.gameObject.TryGetComponent<DamagingObject>(out damagingObject))
@@ -32,11 +51,11 @@ public class Enemy : MonoBehaviour
         }
     }
 
+
     public void TakeDamage(int amount)
     {
         Hit();
         currentHP -= amount;
-        Debug.Log("hp left: " +currentHP);
         if (currentHP <= 0)
         {
             currentHP = 0;
@@ -50,7 +69,6 @@ public class Enemy : MonoBehaviour
         {
             Hit();
             currentHP--;
-            Debug.Log("hp left: " + currentHP);
             if (currentHP <= 0)
             {
                 currentHP = 0;

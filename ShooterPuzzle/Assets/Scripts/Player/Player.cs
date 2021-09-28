@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    // events
     public event EventHandler<OnShootEventArgs> OnWeaponStartFire;
     public event EventHandler<OnShootEventArgs> OnWeaponEndFire;
     public event EventHandler<OnShootEventArgs> OnWeaponContinuousFire;
@@ -15,12 +16,21 @@ public class Player : MonoBehaviour
         public float angle;
     }
 
+    // graphics and colliders
     public SpriteRenderer playerGraphics;
+    private CharacterController2D cc;
+    private BoxCollider2D feet;
 
+
+    // movement
     public float moveSpeed = 20f;
     public GameObject aimPointObject;
     public WeaponForm currentForm;
+    private float moveDirection = 0;
+    private int rawDirection = 1;
+    private bool jump = false;
 
+    // aim
     private Transform aimPointRadiusObject;
     private Transform aimPointActual;
     private float aimPointRadius = 1;
@@ -28,21 +38,52 @@ public class Player : MonoBehaviour
     private float aimingAngle;
     private float lockedAimAngle;
 
-    private CharacterController2D cc;
-    private float moveDirection = 0;
-    private int rawDirection = 1;
-    private bool jump = false;
+    // hp and damage
+    public int maxLives;
+    private int currentLives;
 
-    void Start()
+    private bool isInvulnerable = false;
+    private float invulnerableAfterDamageTime = 1;
+    private float invulenrableDelay;
+    private float invulnerableCounter = 0;
+
+    public int GetCurrentLives()
     {
+        return currentLives;
+    }
+    void Awake()
+    {
+        feet = GetComponent<BoxCollider2D>();
         cc = GetComponent<CharacterController2D>();
         firePoint = transform.Find("FirePoint");
-        //aimPointObject = Instantiate(Resources.Load("Prefabs/AimPoint", typeof(GameObject)),
-        //    transform.position, Quaternion.identity) as GameObject;
-        //aimPointObject.transform.SetParent(transform);
         aimPointRadiusObject = aimPointObject.transform.Find("AimFeedback");
         aimPointActual = aimPointRadiusObject.Find("ActualPoint");
         aimPointRadiusObject.localPosition = new Vector3(0, aimPointRadius, 0);
+        currentLives = maxLives;
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Enemy"))
+        {
+            TakeDamage();
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Steel"))
+        {
+            transform.parent = collision.transform;
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Steel"))
+        {
+            transform.parent = null;
+        }
     }
 
     // Change the current weapon form to a new one, clear old events.
@@ -63,6 +104,7 @@ public class Player : MonoBehaviour
         HandleMovement();
         HandleAiming();
         HandleShooting();
+        HandleInvulnerability();
     }
 
     void HandleMovement()
@@ -116,7 +158,6 @@ public class Player : MonoBehaviour
 
 
     }
-
     void HandleShooting()
     {
         if (Input.GetButtonDown("Fire1"))
@@ -148,9 +189,44 @@ public class Player : MonoBehaviour
         }
     }
 
+    private void HandleInvulnerability()
+    {
+        invulnerableCounter += Time.deltaTime;
+        if (invulnerableCounter >= invulenrableDelay)
+        {
+            // End invulnerability
+            invulnerableCounter = 0;
+            isInvulnerable = false;
+            Color temp = playerGraphics.color;
+            playerGraphics.color = new Color(temp.r, temp.g, temp.b, 1f);
+        }
+    }
+
     public void LockAim()
     {
         lockedAimAngle = aimingAngle;
+    }
+
+    public void TakeDamage()
+    {
+        if (!isInvulnerable)
+        {
+            currentLives--;
+            GainInvulnerability(invulnerableAfterDamageTime);
+            if (currentLives <= 0)
+            {
+                Debug.Log("Game Over!");
+            }
+        }
+    }
+
+    public void GainInvulnerability(float amount)
+    {
+        isInvulnerable = true;
+        invulenrableDelay = amount;
+        invulnerableCounter = 0;
+        Color temp = playerGraphics.color;
+        playerGraphics.color = new Color(temp.r, temp.g, temp.b, 0.5f);
     }
 
     void FixedUpdate()

@@ -26,23 +26,23 @@ public class Bomb : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         Vector2 cp = collision.GetContact(0).point;
-        if (collision.gameObject.tag.Equals("BaseGround"))
+        if (collision.gameObject.CompareTag("BaseGround"))
         {
             Explode(cp);
         }
-        else if (collision.gameObject.tag.Equals("Steel"))
+        else if (collision.gameObject.CompareTag("Steel"))
         {
             Explode(cp);
         }
-        else if (collision.gameObject.tag.Equals("Wood"))
+        else if (collision.gameObject.CompareTag("Wood"))
         {
             Stick(collision);
         }
-        else if (collision.gameObject.tag.Equals("PlayerPlatform"))
+        else if (collision.gameObject.CompareTag("PlayerPlatform"))
         {
             Explode(cp);
         }
-        else if (collision.gameObject.tag.Equals("Enemy"))
+        else if (collision.gameObject.CompareTag("Enemy"))
         {
             Explode(cp);
         }

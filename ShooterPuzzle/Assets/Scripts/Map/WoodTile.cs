@@ -35,20 +35,7 @@ public class WoodTile : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
-    public void Tick()
-    {
-        if (isTickable)
-        {         
-            // animation
-            currentTickCounter--;
-            isTickable = false;
-            if (currentTickCounter <= 0)
-            {
-                Burn();
-            }
-        }
 
-    }
 
     private void Burn()
     {
@@ -59,6 +46,7 @@ public class WoodTile : MonoBehaviour
         {
             platform.Disappear();
         }
+        platforms.Clear();
     }
 
     private void Respawn()
@@ -72,6 +60,24 @@ public class WoodTile : MonoBehaviour
     public void RegisterBombPlatform(BombPlatform bombPlatform) // tell this tile that a new bombPlatform is attached
     {
         platforms.Add(bombPlatform);
+    }
+    public void UnregisterBombPlatform(BombPlatform bombPlatform) // tell this tile that a platform disappeared
+    {
+        platforms.Remove(bombPlatform);
+    }
+    public void Tick()
+    {
+        if (isTickable)
+        {
+            // animation
+            currentTickCounter--;
+            isTickable = false;
+            if (currentTickCounter <= 0)
+            {
+                Burn();
+            }
+        }
+
     }
 
     private void Update()
