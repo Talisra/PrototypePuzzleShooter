@@ -46,7 +46,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   layersToHit:
     serializedVersion: 2
-    m_Bits: 1
+    m_Bits: 2049
 --- !u!120 &1072924229905141684
 LineRenderer:
   m_ObjectHideFlags: 0

@@ -14,10 +14,13 @@ public class Bomb : MonoBehaviour
     private float splashDmgRadius = 1;
     private int splashDamage = 5; // not a damaging object
 
+    private bool isPlatform = false;
+
     // SetDirectionAndPower will set the direction relative to the AimPoint and not the cursor!
     // that will make sure the player can only shoot in the aim point bounds
     public void SetDirectionAndPower(Vector3 aimPointPos, float power)
     {
+        isPlatform = false;
         initialFirePos = transform.position;
         direction = (aimPointPos - transform.position).normalized;
         rb.AddForce(direction * power, ForceMode2D.Impulse);
@@ -82,13 +85,17 @@ public class Bomb : MonoBehaviour
 
     private void Stick(Collision2D wallCollision)
     {
-        BombPlatform platform =
-            PrefabPooler.Instance.Get("BombPlatform", transform.position, Quaternion.identity)
-            .GetComponent<BombPlatform>();
-        platform.AttachToWall(
-            wallCollision.GetContact(0),
-            wallCollision.gameObject.GetComponent<WoodTile>()
-            );
+        if (!isPlatform)
+        {
+            isPlatform = true;
+            BombPlatform platform =
+                PrefabPooler.Instance.Get("BombPlatform", transform.position, Quaternion.identity)
+                .GetComponent<BombPlatform>();
+            platform.AttachToWall(
+                wallCollision.GetContact(0),
+                wallCollision.gameObject.GetComponent<WoodTile>()
+                );
+        }
         ReturnToPool();
     }
 

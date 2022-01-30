@@ -44,6 +44,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c21282033a87aec458af6974ff0111c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  layersToHit:
+    serializedVersion: 2
+    m_Bits: 1
   lr: {fileID: 9079382489763009941}
 --- !u!120 &9079382489763009941
 LineRenderer:

@@ -20,11 +20,12 @@ public class Player : MonoBehaviour
     public SpriteRenderer playerGraphics;
     private CharacterController2D cc;
     private BoxCollider2D feet;
-
+    private Rigidbody2D rb;
 
     // movement
     public float moveSpeed = 20f;
     public GameObject aimPointObject;
+    [HideInInspector]
     public WeaponForm currentForm;
     private float moveDirection = 0;
     private int rawDirection = 1;
@@ -55,6 +56,7 @@ public class Player : MonoBehaviour
     {
         feet = GetComponent<BoxCollider2D>();
         cc = GetComponent<CharacterController2D>();
+        rb = GetComponent<Rigidbody2D>();
         firePoint = transform.Find("FirePoint");
         aimPointRadiusObject = aimPointObject.transform.Find("AimFeedback");
         aimPointActual = aimPointRadiusObject.Find("ActualPoint");
@@ -66,7 +68,7 @@ public class Player : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Enemy"))
         {
-            TakeDamage();
+            TakeDamage(collision.gameObject.transform.position);
         }
     }
 
@@ -101,6 +103,10 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            KnockBackFromSource(Vector2.zero);
+        }
         HandleMovement();
         HandleAiming();
         HandleShooting();
@@ -207,15 +213,16 @@ public class Player : MonoBehaviour
         lockedAimAngle = aimingAngle;
     }
 
-    public void TakeDamage()
+    public void TakeDamage(Vector2 damageSourcePos)
     {
         if (!isInvulnerable)
         {
             currentLives--;
             GainInvulnerability(invulnerableAfterDamageTime);
+            KnockBackFromSource(damageSourcePos);
             if (currentLives <= 0)
             {
-                Debug.Log("Game Over!");
+                LevelManager.Instance.GameOver();
             }
         }
     }
@@ -227,6 +234,12 @@ public class Player : MonoBehaviour
         invulnerableCounter = 0;
         Color temp = playerGraphics.color;
         playerGraphics.color = new Color(temp.r, temp.g, temp.b, 0.5f);
+    }
+
+    public void KnockBackFromSource(Vector2 sourcePosition)
+    {
+        // TODO: somewhat not working (cause of CC probably)
+        rb.AddForce(((Vector2)transform.position - sourcePosition));
     }
 
     void FixedUpdate()

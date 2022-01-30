@@ -7,6 +7,7 @@ public class WoodTile : MonoBehaviour
     // General
     public Sprite sprite_live;
     public Sprite sprite_burn;
+    public Player player;
 
     private SpriteRenderer spriteRenderer;
     private Rigidbody2D rb;
@@ -33,6 +34,7 @@ public class WoodTile : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         collider2d = GetComponent<Collider2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        player = FindObjectOfType<Player>();
     }
 
 
@@ -49,12 +51,18 @@ public class WoodTile : MonoBehaviour
         platforms.Clear();
     }
 
-    private void Respawn()
+    private void CheckRespawn()
     {
+        if (Vector3.Distance(player.transform.position, transform.position) < 0.75f) // only respawn if player is not in the same position
+        {
+            respawnCounter = respawnTime - Time.deltaTime;
+            return;
+        }
         collider2d.enabled = true;
         spriteRenderer.sprite = sprite_live;
         currentTickCounter = ticksToDestroy;
         isBurnt = false;
+        respawnCounter = 0;
     }
 
     public void RegisterBombPlatform(BombPlatform bombPlatform) // tell this tile that a new bombPlatform is attached
@@ -96,8 +104,7 @@ public class WoodTile : MonoBehaviour
             respawnCounter += Time.deltaTime;
             if (respawnCounter >= respawnTime)
             {
-                Respawn();
-                respawnCounter = 0;
+                CheckRespawn();
             }
         }
     }

@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
+    private float lifetime = 5;
+    private float lifetimeCounter = 0;
     private float speed = 500;
     private Vector3 lastVelocity;
     private Vector3 initialFirePos;
@@ -50,6 +52,11 @@ public class Bullet : MonoBehaviour
         {
             ReturnToPool();
         }
+        lifetimeCounter += Time.deltaTime;
+        if (lifetimeCounter > lifetime)
+        {
+            ReturnToPool();
+        }
     }
 
     private void Reflect(Collision2D collision)
@@ -62,6 +69,7 @@ public class Bullet : MonoBehaviour
     private void ReturnToPool()
     {
         rb.velocity = Vector3.zero; // reset velocity 
+        lifetimeCounter = 0; // reset lifetime
         PrefabPooler.Instance.ReturnToPool(gameObject);
     }
 }

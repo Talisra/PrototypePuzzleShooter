@@ -9,12 +9,15 @@ public class SteelTile : MonoBehaviour
     private Collider2D collider2d;
 
     // Ticking
-    private int ticksToMove = 5;
+    private int ticksToMove = 5; // 5
     private int currentTickCounter;
 
     private float tickTime = .1f;
     private float tickTimeCounter = 0;
     private bool isTickable = false;
+    private bool laserContact = false;
+    private Vector2 lastHitOrigin;
+    private float laserHitCounter = 0;
 
     // Moving
     private int state; // 0: static, 1: moving, 2: stop, 3: back
@@ -22,6 +25,7 @@ public class SteelTile : MonoBehaviour
     private float moveBackTime = 5;
     private float moveBackCounter = 0;
 
+    private Vector3 moveTarget;
     private Vector3 moveDirection = Vector2.zero;
     private Vector3 startPoint;
     private Vector3 tempPoint;
@@ -48,6 +52,14 @@ public class SteelTile : MonoBehaviour
             Mathf.Abs(vertical) > Mathf.Abs(horizontal) ? Mathf.Sign(vertical) : 0,
             0
             );
+        if (state == 1 || state == 2) // not in original position - can only move in the intial direction
+        {
+            if (direction != moveDirection)
+            {
+                return;
+            }
+        }
+        moveTarget = transform.position + direction * 0.5f;
         state = 1;
         moveDirection = direction;
     }
@@ -73,10 +85,28 @@ public class SteelTile : MonoBehaviour
             tempPoint = hit.point - direction * collider2d.bounds.size.x / 2;
     }
 
+    private void CheckLaserContact()
+    {
+        if (laserContact)
+        {
+            StartMovingTile(lastHitOrigin);
+        }
+        else
+        {
+            Stop();
+        }
+    }
+
     private void Stop()
     {
-        transform.position = endPoint;
-        state = 2;
+        transform.position = moveTarget;
+        if (laserContact)
+        {
+            state = 1;
+            StartMovingTile(lastHitOrigin);
+        }
+        else
+            state = 2;
     }
 
     private void Reset()
@@ -85,13 +115,17 @@ public class SteelTile : MonoBehaviour
         isTickable = true;
         currentTickCounter = ticksToMove;
         tickTimeCounter = 0;
+        transform.position = startPoint;
     }
 
     public void Tick(Vector2 hitOrigin)
     {
         if (isTickable)
         {
-            // animation
+            lastHitOrigin = hitOrigin;
+            // animation comes here
+            laserContact = true;
+            laserHitCounter = 0; // reset laser counter
             currentTickCounter--;
             isTickable = false;
             if (currentTickCounter <= 0)
@@ -105,28 +139,38 @@ public class SteelTile : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (state == 0 | state == 1 || state == 2)
+        {
+            laserHitCounter += Time.deltaTime;
+            if (laserHitCounter >= tickTime*2)
+            {
+                laserHitCounter = 0;
+                laserContact = false;
+            }
+
+            if (!isTickable)
+            {
+                tickTimeCounter += Time.deltaTime;
+                if (tickTimeCounter >= tickTime)
+                {
+                    isTickable = true;
+                    tickTimeCounter = 0;
+                }
+            }
+        }
         switch (state)
         {
             case 0: // static
                 {
-                    if (!isTickable)
-                    {
-                        tickTimeCounter += Time.deltaTime;
-                        if (tickTimeCounter >= tickTime)
-                        {
-                            isTickable = true;
-                            tickTimeCounter = 0;
-                        }
-                    }
                     break;
                 }
             case 1: // move
                 {
                     CheckBeforeMove(moveDirection);
-                    transform.position = Vector3.MoveTowards(transform.position, endPoint, Time.deltaTime * moveSpeed);
-                    if (Vector2.Distance(transform.position, endPoint) < 0.1f)
+                    transform.position = Vector3.MoveTowards(transform.position, moveTarget, Time.deltaTime * moveSpeed);
+                    if (Vector2.Distance(transform.position, moveTarget) < 0.05f)
                     {
-                        Stop();
+                        CheckLaserContact();
                     }
                     break;
                 }
@@ -138,14 +182,15 @@ public class SteelTile : MonoBehaviour
                         moveBackCounter = 0;
                         state = 3;
                         moveDirection *= -1;
+                        isTickable = false;
                     }
                     break;
                 }
-            case 3:
+            case 3: // back
                 {
                     CheckBeforeMoveBack(moveDirection);
                     transform.position = Vector3.MoveTowards(transform.position, tempPoint, Time.deltaTime * moveSpeed);
-                    if (Vector2.Distance(transform.position, startPoint) < 0.1f)
+                    if (Vector2.Distance(transform.position, startPoint) < 0.05f)
                     {
                         Reset();
                     }

@@ -1,9 +1,13 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
+    public bool isPoolable;
+    public event EventHandler OnEnemyDeath;
+
     [HideInInspector]
     public SpriteRenderer sr;
     public int maxHP;
@@ -34,7 +38,7 @@ public class Enemy : MonoBehaviour
         currentHP = maxHP;
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    protected virtual void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("PlayerAttack"))
         {
@@ -88,7 +92,14 @@ public class Enemy : MonoBehaviour
 
     private void Die()
     {
-        PrefabPooler.Instance.ReturnToPool(gameObject);
+        OnEnemyDeath?.Invoke(this, new EventArgs()); // invoke enemy death event
+        if (isPoolable)
+        {
+            PrefabPooler.Instance.ReturnToPool(gameObject);
+        }else
+        {
+            gameObject.SetActive(false);
+        }
     }
 
     private void Update()

@@ -3,6 +3,7 @@ using System.Collections;
 
 public class BombAimAssist : MonoBehaviour
 {
+    public LayerMask layersToHit;
     public LineRenderer lr;
     int line_res;
     int lr_maxPoints;
@@ -56,7 +57,8 @@ public class BombAimAssist : MonoBehaviour
             lr.SetPosition(i, new Vector2(startPos.x + Vx * i * dt, startPos.y + Vy * i * dt));
             if (i>0)
             {
-                RaycastHit2D hit = Physics2D.Raycast(lr.GetPosition(i), lr.GetPosition(i) - lr.GetPosition(i - 1), dt);
+                Physics2D.queriesStartInColliders = true;
+                RaycastHit2D hit = Physics2D.Raycast(lr.GetPosition(i), lr.GetPosition(i) - lr.GetPosition(i - 1), dt, layersToHit);
                 if (hit.collider != null)
                 {
                     if (hit.collider.gameObject.tag.Equals("BaseGround") ||

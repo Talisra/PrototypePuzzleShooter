@@ -6,10 +6,13 @@ public class BombPlatform : MonoBehaviour
 {
     private BoxCollider2D boxCollider;
     private SpriteRenderer spriteRenderer;
-    private float disappearDelay = 50f;
+    private float disappearDelay = 5f;
     private float timeCounter = 0;
 
     private WoodTile tileAnchor;
+
+    private Vector2 targetLocation;
+    private float spawnSpeed = 0.7f;
 
     private void Awake()
     {
@@ -51,8 +54,9 @@ public class BombPlatform : MonoBehaviour
             else
                 transform.localRotation = Quaternion.Euler(0, 0, 90);
         }
+        transform.position = tileCenter; // adjust to the center of the tile for smooth spawn
+        targetLocation = new Vector3(x + xAdd, y + yAdd, 0);
         Vector3 newPosition = new Vector3(x + xAdd, y + yAdd, 0);
-        transform.position = newPosition;
         tile.RegisterBombPlatform(this);
         tileAnchor = tile;
     }
@@ -74,5 +78,10 @@ public class BombPlatform : MonoBehaviour
             tileAnchor.UnregisterBombPlatform(this);
             Disappear();
         }
+        if ((Vector2)transform.position != targetLocation)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, targetLocation, Time.deltaTime * spawnSpeed);
+        }
+
     }
 }

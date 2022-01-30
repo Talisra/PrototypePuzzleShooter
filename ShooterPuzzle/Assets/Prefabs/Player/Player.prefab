@@ -47,7 +47,7 @@ GameObject:
   - component: {fileID: 5115573925426922286}
   m_Layer: 8
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -114,6 +114,7 @@ MonoBehaviour:
   moveSpeed: 20
   aimPointObject: {fileID: 2079549698515248271}
   currentForm: {fileID: 0}
+  maxLives: 3
 --- !u!212 &2439207339846765655
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -181,7 +182,7 @@ Rigidbody2D:
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 3
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 9c326db229e86ca42a02e73dd9a329b6, type: 2}
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 1
