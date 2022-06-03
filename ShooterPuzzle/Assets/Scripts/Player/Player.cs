@@ -35,7 +35,9 @@ public class Player : MonoBehaviour
     private Transform aimPointRadiusObject;
     private Transform aimPointActual;
     private float aimPointRadius = 1;
-    private Transform firePoint;
+    private Transform firePointTop;
+    private Transform firePointMiddle;
+    private Transform currentFirePoint;
     private float aimingAngle;
     private float lockedAimAngle;
 
@@ -57,7 +59,8 @@ public class Player : MonoBehaviour
         feet = GetComponent<BoxCollider2D>();
         cc = GetComponent<CharacterController2D>();
         rb = GetComponent<Rigidbody2D>();
-        firePoint = transform.Find("FirePoint");
+        firePointTop = transform.Find("FirePoint-top");
+        firePointMiddle = transform.Find("FirePoint-middle");
         aimPointRadiusObject = aimPointObject.transform.Find("AimFeedback");
         aimPointActual = aimPointRadiusObject.Find("ActualPoint");
         aimPointRadiusObject.localPosition = new Vector3(0, aimPointRadius, 0);
@@ -94,6 +97,7 @@ public class Player : MonoBehaviour
         if (currentForm) // reset the previous form if its not the first form
             currentForm.Reset();
         currentForm = newForm;
+        currentFirePoint = newForm.firePoint == 0? firePointTop : firePointMiddle;
         OnWeaponStartFire = null;
         OnWeaponEndFire = null;
         OnWeaponContinuousFire = null;
@@ -129,7 +133,7 @@ public class Player : MonoBehaviour
         Vector3 mousePosition = Input.mousePosition;
         mousePosition = Camera.main.ScreenToWorldPoint(
            new Vector3(mousePosition.x, mousePosition.y, -Camera.main.transform.position.z));
-        Vector3 aimDirection = (mousePosition - firePoint.position).normalized;
+        Vector3 aimDirection = (mousePosition - currentFirePoint.position).normalized;
         aimingAngle = Mathf.Atan2(-aimDirection.x, aimDirection.y) * Mathf.Rad2Deg;
 
         if (currentForm.capAim) // cap aiming if needed
@@ -170,7 +174,7 @@ public class Player : MonoBehaviour
         {
             OnWeaponStartFire?.Invoke(this, new OnShootEventArgs
             {
-                firePointPos = firePoint.position,
+                firePointPos = currentFirePoint.position,
                 aimPointPos = aimPointActual.position,
                 angle = aimingAngle
             });
@@ -179,7 +183,7 @@ public class Player : MonoBehaviour
         {
             OnWeaponEndFire?.Invoke(this, new OnShootEventArgs
             {
-                firePointPos = firePoint.position,
+                firePointPos = currentFirePoint.position,
                 aimPointPos = aimPointActual.position,
                 angle = aimingAngle
             });
@@ -188,7 +192,7 @@ public class Player : MonoBehaviour
         {
             OnWeaponContinuousFire?.Invoke(this, new OnShootEventArgs
             {
-                firePointPos = firePoint.position,
+                firePointPos = currentFirePoint.position,
                 aimPointPos = aimPointActual.position,
                 angle = aimingAngle
             });
@@ -238,6 +242,7 @@ public class Player : MonoBehaviour
 
     public void KnockBackFromSource(Vector2 sourcePosition)
     {
+        return;
         // TODO: somewhat not working (cause of CC probably)
         rb.AddForce(((Vector2)transform.position - sourcePosition));
     }

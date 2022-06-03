@@ -5,7 +5,8 @@ public class WeaponForm : MonoBehaviour
     [HideInInspector]
     [SerializeField]protected Player player;
     public Sprite formSprite;
-
+    [Tooltip("0: top, 1: middle")]
+    public int firePoint;
     public bool capAim; // use if the weapon is capped in aiming
     public float minAngle;
     public float maxAngle;
