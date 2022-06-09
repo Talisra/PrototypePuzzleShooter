@@ -11,6 +11,7 @@ public class MenuManager : MonoBehaviour
     public GameObject menu;
     public GameObject levelSelector;
     public GameObject loading;
+    public GameObject logo;
 
 
     void Awake()
@@ -24,6 +25,7 @@ public class MenuManager : MonoBehaviour
     {
         levelSelector.gameObject.SetActive(true);
         menu.gameObject.SetActive(false);
+        logo.SetActive(false);
     }
 
     public IEnumerator LoadAsynchronousely(int sceneIndex)

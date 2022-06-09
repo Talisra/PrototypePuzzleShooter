@@ -13,7 +13,7 @@ public class WeaponForm_Cannon : WeaponForm
     public float maxPower = 4000; // 4000
     public float maxChargeTime = 1;
     private float chargeMultiplier;
-    private float unknownMultiplier = 1.41f; //No explanation why but this multiplier works with aim assist the best
+    private float unknownMultiplier = 1.41f; //old: 1.41f. No explanation why but this multiplier works with aim assist the best
 
     public float coolDown;
     private float cdCounter = 0;
@@ -49,6 +49,8 @@ public class WeaponForm_Cannon : WeaponForm
     {
         if (canShoot)
         {
+            if (power == minPower)
+                AudioManager.Instance.Play("bomb_aim");
             isCharging = true;
             if (!aimAssist.gameObject.activeSelf)
                 aimAssist.gameObject.SetActive(true);
@@ -63,6 +65,7 @@ public class WeaponForm_Cannon : WeaponForm
     {
         if (canShoot && isCharging)
         {
+            AudioManager.Instance.Stop("bomb_aim");
             aimAssist.gameObject.SetActive(false);
             Bomb bomb = PrefabPooler.Instance.Get("Bomb_prototype", e.firePointPos, Quaternion.identity).GetComponent<Bomb>();
             bomb.SetDirectionAndPower(e.aimPointPos, power);

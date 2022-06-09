@@ -16,6 +16,7 @@ public class WeaponForm_Laser : WeaponForm
     {
         base.Awake();
         prefireParticle = Instantiate(prefireParticlePrefab, Vector2.zero, Quaternion.identity).GetComponent<ParticleSystem>();
+        prefireParticle.gameObject.SetActive(false);
         laser.gameObject.SetActive(false);
     }
 
@@ -38,6 +39,7 @@ public class WeaponForm_Laser : WeaponForm
         prefireParticle.transform.position = player.transform.position;
         if (canShoot)
         {
+            AudioManager.Instance.Play("laser");
             if (!startedFire)
             {
                 player.LockAim();
@@ -51,6 +53,8 @@ public class WeaponForm_Laser : WeaponForm
             slowAim = true;
         }else
         {
+            if (cdCounter == 0)
+                AudioManager.Instance.Play("charge");
             cdCounter += Time.deltaTime;
             if (cdCounter >= coolDown)
             {
@@ -62,6 +66,7 @@ public class WeaponForm_Laser : WeaponForm
 
     private void StopLaser(object sender, Player.OnShootEventArgs e)
     {
+        AudioManager.Instance.Stop("charge");
         prefireParticle.gameObject.SetActive(false);
         startedFire = false;
         slowAim = false;

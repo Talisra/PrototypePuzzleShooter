@@ -9,6 +9,8 @@ public class WoodTile : MonoBehaviour
     public Sprite sprite_burn;
     public Player player;
 
+    public Sprite[] crackSprites;
+
     private SpriteRenderer spriteRenderer;
     private Rigidbody2D rb;
     private Collider2D collider2d;
@@ -19,7 +21,7 @@ public class WoodTile : MonoBehaviour
     private int ticksToDestroy = 5;
     private int currentTickCounter;
 
-    private float tickTime = .1f;
+    private float tickTime = .2f;
     private float tickTimeCounter = 0;
     private bool isTickable = false;
 
@@ -41,6 +43,10 @@ public class WoodTile : MonoBehaviour
 
     private void Burn()
     {
+        AudioManager.Instance.Play("destroy");
+        ParticleSystem ps = PrefabPooler.Instance.Get("Wood-Destroy", transform.position, Quaternion.identity).GetComponent<ParticleSystem>();
+        ps.Stop();
+        ps.Play();
         collider2d.enabled = false;
         spriteRenderer.sprite = sprite_burn;
         isBurnt = true;
@@ -78,7 +84,10 @@ public class WoodTile : MonoBehaviour
         if (isTickable)
         {
             // animation
+            AudioManager.Instance.Play("tick");
             currentTickCounter--;
+            if (currentTickCounter > 0)
+                spriteRenderer.sprite = crackSprites[crackSprites.Length - currentTickCounter];
             isTickable = false;
             if (currentTickCounter <= 0)
             {

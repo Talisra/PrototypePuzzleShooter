@@ -6,7 +6,9 @@ public class BombSplash : MonoBehaviour
 {
     private float scale;
     private float maxSize = 1;
-    private float scaleSpeed = .02f;
+    private float scaleSpeed = .005f;
+
+
     // Start is called before the first frame update
     void OnEnable()
     {

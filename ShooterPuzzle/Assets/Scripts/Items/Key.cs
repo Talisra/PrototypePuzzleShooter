@@ -23,6 +23,7 @@ public class Key : Item
     
     protected override void Pickup(Player player)
     {
+        AudioManager.Instance.Play("key");
         LevelManager.Instance.AddKey();
     }
 }

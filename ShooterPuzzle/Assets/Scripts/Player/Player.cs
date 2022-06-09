@@ -244,7 +244,7 @@ public class Player : MonoBehaviour
     {
         return;
         // TODO: somewhat not working (cause of CC probably)
-        rb.AddForce(((Vector2)transform.position - sourcePosition));
+        //rb.AddForce(((Vector2)transform.position - sourcePosition));
     }
 
     void FixedUpdate()

@@ -55,7 +55,13 @@ public class CharacterController2D : MonoBehaviour
 			{
 				m_Grounded = true;
 				if (!wasGrounded)
+                {	
+					AudioManager.Instance.Play("step");
+					ParticleSystem ps = PrefabPooler.Instance.Get("land", transform.position - new Vector3(0, 0.5f, 0), Quaternion.identity).GetComponent<ParticleSystem>();
+					ps.Stop();
+					ps.Play();
 					OnLandEvent.Invoke();
+                }
 			}
 		}
 	}
@@ -127,6 +133,7 @@ public class CharacterController2D : MonoBehaviour
 		{
 			// Add a vertical force to the player.
 			m_Grounded = false;
+			AudioManager.Instance.Play("jump");
 			m_Rigidbody2D.AddForce(new Vector2(0f, m_JumpForce));
 		}
 	}

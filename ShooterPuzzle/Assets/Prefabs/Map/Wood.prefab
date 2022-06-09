@@ -99,6 +99,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sprite_live: {fileID: -8967518371753388507, guid: d04df81c45e3b304cbafd792a269ea0f, type: 3}
   sprite_burn: {fileID: 0}
+  player: {fileID: 0}
+  crackSprites:
+  - {fileID: -8578088749792964373, guid: a895cc3cd288e1d489e1e0cbc2962b9b, type: 3}
+  - {fileID: -8934786534227286215, guid: a895cc3cd288e1d489e1e0cbc2962b9b, type: 3}
+  - {fileID: -142191620395342481, guid: a895cc3cd288e1d489e1e0cbc2962b9b, type: 3}
+  - {fileID: 2485717272807884169, guid: a895cc3cd288e1d489e1e0cbc2962b9b, type: 3}
+  - {fileID: -8893104439563781816, guid: a895cc3cd288e1d489e1e0cbc2962b9b, type: 3}
 --- !u!61 &3662884392977461895
 BoxCollider2D:
   m_ObjectHideFlags: 0

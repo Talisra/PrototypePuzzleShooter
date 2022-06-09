@@ -7,7 +7,7 @@ public class WeaponForm_HandGun : WeaponForm
     public int totalAmmo;
     private int currentAmmo;
 
-    private float ammoRegen = 1.25f;
+    private float ammoRegen = 0.55f;
     private float ammoRegenCounter = 0;
 
     public override void InitForm()
@@ -25,6 +25,7 @@ public class WeaponForm_HandGun : WeaponForm
     {
         if (currentAmmo > 0)
         {
+            AudioManager.Instance.Play("shoot_bullet");
             Bullet bullet = PrefabPooler.Instance.Get("Bullet_prototype", e.firePointPos, Quaternion.identity).GetComponent<Bullet>();
             bullet.SetDirection(e.aimPointPos);
             currentAmmo--;

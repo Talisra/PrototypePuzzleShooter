@@ -1,0 +1,76 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &3554059779808320636
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3554059779808320626}
+  - component: {fileID: 3554059779808320637}
+  m_Layer: 0
+  m_Name: Pooler
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3554059779808320626
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3554059779808320636}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 3.6554108, y: -1.1132741, z: -1.2321808}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3554059779808320637
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3554059779808320636}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd584a75fe0aa2349981e11f4d4bdf7f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pools:
+  - tag: Bullet_prototype
+    prefab: {fileID: 1453930782439348413, guid: 99fd77e286b2a504f8aa967c817345c0, type: 3}
+    size: 10
+  - tag: Bomb_prototype
+    prefab: {fileID: 1453930782439348413, guid: fe2a10e8918f5924f93e864b4a433529, type: 3}
+    size: 5
+  - tag: BulletSplash
+    prefab: {fileID: 7186726735687898692, guid: 4a29da91ec497a64ea30dab392f90c7a, type: 3}
+    size: 5
+  - tag: BombSplash
+    prefab: {fileID: 7186726735687898692, guid: f0546db35f94abc4faab2c01c687404e, type: 3}
+    size: 2
+  - tag: BombPlatform
+    prefab: {fileID: 1649797519174134608, guid: cf1f317095d73f34b98eb2d64c4acc55, type: 3}
+    size: 2
+  - tag: Target
+    prefab: {fileID: 1846939147729005895, guid: 360f1b329ae57c44091228213ff3dc16, type: 3}
+    size: 2
+  - tag: Wandering Enemy
+    prefab: {fileID: 1846939147729005895, guid: a24ba3b7fc76f3440ab9dbcc1922d132, type: 3}
+    size: 2
+  - tag: Wood-Destroy
+    prefab: {fileID: 6995107147052308743, guid: ee62851edd470414b9db017fc72266af, type: 3}
+    size: 4
+  - tag: land
+    prefab: {fileID: 6995107147052308743, guid: 088dd6c2849d5fc4a98d76457bfa4742, type: 3}
+    size: 2
+  - tag: bombExpP
+    prefab: {fileID: 6995107147052308743, guid: ecbf1636837626a4e8f34846839e6fbf, type: 3}
+    size: 1

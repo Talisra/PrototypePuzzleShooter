@@ -68,6 +68,8 @@ public class Bullet : MonoBehaviour
 
     private void ReturnToPool()
     {
+        AudioManager.Instance.Play("handgun_boom");
+        PrefabPooler.Instance.Get("BulletSplash", transform.position, Quaternion.identity);// animation only!
         rb.velocity = Vector3.zero; // reset velocity 
         lifetimeCounter = 0; // reset lifetime
         PrefabPooler.Instance.ReturnToPool(gameObject);

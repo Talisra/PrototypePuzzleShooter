@@ -20,6 +20,7 @@ public class Bomb : MonoBehaviour
     // that will make sure the player can only shoot in the aim point bounds
     public void SetDirectionAndPower(Vector3 aimPointPos, float power)
     {
+        AudioManager.Instance.Play("bomb_fire");
         isPlatform = false;
         initialFirePos = transform.position;
         direction = (aimPointPos - transform.position).normalized;
@@ -53,7 +54,12 @@ public class Bomb : MonoBehaviour
 
     private void Explode(Vector3 position)
     {
+        AudioManager.Instance.Play("bomb_boom");
+        AudioManager.Instance.Play("bomb2");
         PrefabPooler.Instance.Get("BombSplash", transform.position, Quaternion.identity);// animation only!
+        ParticleSystem ps = PrefabPooler.Instance.Get("bombExpP", transform.position - new Vector3(0, 0.5f, 0), Quaternion.identity).GetComponent<ParticleSystem>();
+        ps.Stop();
+        ps.Play();
         ExplosionDamage(position);
         ReturnToPool();
     }
@@ -91,6 +97,7 @@ public class Bomb : MonoBehaviour
             BombPlatform platform =
                 PrefabPooler.Instance.Get("BombPlatform", transform.position, Quaternion.identity)
                 .GetComponent<BombPlatform>();
+            AudioManager.Instance.Play("platform");
             platform.AttachToWall(
                 wallCollision.GetContact(0),
                 wallCollision.gameObject.GetComponent<WoodTile>()

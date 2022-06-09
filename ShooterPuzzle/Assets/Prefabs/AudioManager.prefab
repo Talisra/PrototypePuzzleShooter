@@ -1,0 +1,135 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &4723465819822281085
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4202261221107977861}
+  - component: {fileID: 4672238943378718414}
+  m_Layer: 0
+  m_Name: AudioManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4202261221107977861
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4723465819822281085}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.8734207, y: 1.0368857, z: -79.6789}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4672238943378718414
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4723465819822281085}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b49f065ce4bde540ac9be2d74e599cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isMenu: 0
+  sounds:
+  - name: laser
+    clip: {fileID: 8300000, guid: 962fac0b7522a2c48a5ff6f742e7f6a0, type: 3}
+    volume: 0.046
+    pitch: 2.5
+    loop: 0
+    source: {fileID: 0}
+  - name: jump
+    clip: {fileID: 8300000, guid: 75f3926af9f78424ca74f6e88f4dbafb, type: 3}
+    volume: 1
+    pitch: 0.8
+    loop: 0
+    source: {fileID: 0}
+  - name: handgun_boom
+    clip: {fileID: 8300000, guid: 34737af3917336544b0ca93959431650, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: shoot_bullet
+    clip: {fileID: 8300000, guid: c2de805e53adaa2459a10b4bc6c3b93e, type: 3}
+    volume: 1
+    pitch: 1.3
+    loop: 1
+    source: {fileID: 0}
+  - name: charge
+    clip: {fileID: 8300000, guid: f6f9386e44abee341bf5e45a8ea7288e, type: 3}
+    volume: 1
+    pitch: 1.8
+    loop: 0
+    source: {fileID: 0}
+  - name: bomb_aim
+    clip: {fileID: 8300000, guid: 61251ebe019776b40aeb7b7cbf6f862b, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: bomb_boom
+    clip: {fileID: 8300000, guid: d6e8ea9a5344c5748941431efe47e642, type: 3}
+    volume: 1
+    pitch: 0.7
+    loop: 0
+    source: {fileID: 0}
+  - name: bomb_fire
+    clip: {fileID: 8300000, guid: 4e67ce306e2fd444c8705e325c48148e, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: tick
+    clip: {fileID: 8300000, guid: 8465379b3d549c04784da3a44366441f, type: 3}
+    volume: 1
+    pitch: 0.67
+    loop: 0
+    source: {fileID: 0}
+  - name: destroy
+    clip: {fileID: 8300000, guid: 2b8f06211af9b9a4dbcf1fa4ea07803c, type: 3}
+    volume: 1
+    pitch: 1.04
+    loop: 0
+    source: {fileID: 0}
+  - name: bomb2
+    clip: {fileID: 8300000, guid: f10be028d8d5b134884928ac86650a2b, type: 3}
+    volume: 0.717
+    pitch: 0.83
+    loop: 0
+    source: {fileID: 0}
+  - name: key
+    clip: {fileID: 8300000, guid: f10be028d8d5b134884928ac86650a2b, type: 3}
+    volume: 0.717
+    pitch: 0.83
+    loop: 0
+    source: {fileID: 0}
+  - name: step
+    clip: {fileID: 8300000, guid: 19adf32938dbeca40bfea152028ba724, type: 3}
+    volume: 0.265
+    pitch: 1.82
+    loop: 0
+    source: {fileID: 0}
+  - name: platform
+    clip: {fileID: 8300000, guid: 511556342efbdab4c8b68820451b0091, type: 3}
+    volume: 1
+    pitch: 1.5
+    loop: 0
+    source: {fileID: 0}
+  muteSound: 0
+  muteMusic: 0
+  shutDown: []
+  menuSounds: []
